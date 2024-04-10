@@ -6,29 +6,10 @@ from .serializers import *
 from .models import *
 
 
-# class UsersViewset(viewsets.ModelViewSet):
-#     queryset = Users.objects.all()
-#     serializer_class = UsersSerializer
-#
-#
-# class CoordsViewset(viewsets.ModelViewSet):
-#     queryset = Coords.objects.all()
-#     serializer_class = CoordsSerializer
-#
-#
-# class LevelViewset(viewsets.ModelViewSet):
-#     queryset = Level.objects.all()
-#     serializer_class = LevelSerializer
-#
-#
-# class ImageViewset(viewsets.ModelViewSet):
-#     queryset = Images.objects.all()
-#     serializer_class = ImagesSerializer
-class PassList(ListAPIView):
-    queryset = Pass.objects.all()
-    serializer_class = PassSerializer
-
-
-class PassCreate(CreateAPIView):
+class PassCreate(ListCreateAPIView):
+    """
+    DRF generic View representing the list of passes in DB
+    And a POST form for creating new Pass Model object
+    """
     queryset = Pass.objects.all()
     serializer_class = PassSerializer

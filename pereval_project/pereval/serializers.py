@@ -46,6 +46,15 @@ class PassSerializer(ModelSerializer):
         ]
 
     def create(self, validated_data):
+        """
+        :param validated_data: dict
+        :return: models.Pass object
+
+        Method works with POST request from 'Pereval/submitDATA',
+        spreading data across models, related to Pass model.
+        Returns new Pass object.
+        """
+
         tourist = validated_data.pop('tourist')
         coords = validated_data.pop('coord')
         level = validated_data.pop('level')
