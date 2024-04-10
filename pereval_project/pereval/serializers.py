@@ -23,17 +23,14 @@ class LevelSerializer(ModelSerializer):
 class ImagesSerializer(ModelSerializer):
     class Meta:
         model = Images
-        fields = [
-            'image',
-            'title',
-        ]
+        fields = "__all__"
 
 
 class PassSerializer(ModelSerializer):
     tourist = UsersSerializer()
     coord = CoordsSerializer()
     level = LevelSerializer()
-    # image = ImagesSerializer()
+    image = ImagesSerializer()
 
     class Meta:
         model = Pass
@@ -52,7 +49,7 @@ class PassSerializer(ModelSerializer):
         tourist = validated_data.pop('tourist')
         coords = validated_data.pop('coord')
         level = validated_data.pop('level')
-        # image = validated_data.pop('image')
+        image = validated_data.pop('image')
 
         cur_user = Users.objects.filter(email=tourist['email'])
         if cur_user.exists():
@@ -64,18 +61,14 @@ class PassSerializer(ModelSerializer):
 
         coords = Coords.objects.create(**coords)
         level = Level.objects.create(**level)
-        print(validated_data)
+        image = Images.objects.create(**image)
+
         new_pass = Pass.objects.create(
             **validated_data,
             tourist=user,
             coord=coords,
-            level=level
+            level=level,
+            image=image
         )
 
-        # Images.objects.create(
-        #     rel_pass=new_pass,
-        #     **image,
-        # )
-
         return new_pass
-

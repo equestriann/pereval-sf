@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from rest_framework.generics import ListCreateAPIView
+from rest_framework.generics import ListCreateAPIView, ListAPIView, CreateAPIView
 
 from .serializers import *
 from .models import *
@@ -24,8 +24,11 @@ from .models import *
 # class ImageViewset(viewsets.ModelViewSet):
 #     queryset = Images.objects.all()
 #     serializer_class = ImagesSerializer
+class PassList(ListAPIView):
+    queryset = Pass.objects.all()
+    serializer_class = PassSerializer
 
 
-class PassViewset(ListCreateAPIView):
+class PassCreate(CreateAPIView):
     queryset = Pass.objects.all()
     serializer_class = PassSerializer

@@ -35,6 +35,19 @@ class Coords(models.Model):
         verbose_name_plural = 'Координаты'
 
 
+class Images(models.Model):
+    title = models.CharField(max_length=255)
+    image = models.URLField(blank=True)
+    add_time = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Изображение'
+        verbose_name_plural = 'Изображения'
+
+    def __str__(self):
+        return f'{self.title}'
+
+
 class Pass(models.Model):
     status = models.CharField(choices=choices.STATUS, max_length=9, default='new')
     beauty_title = models.CharField(max_length=255)
@@ -45,6 +58,7 @@ class Pass(models.Model):
     coord = models.OneToOneField(Coords, on_delete=models.CASCADE)
     tourist = models.ForeignKey(Users, on_delete=models.CASCADE)
     level = models.OneToOneField(Level, on_delete=models.CASCADE, default="---")
+    image = models.ForeignKey(Images, on_delete=models.CASCADE, null=True)
 
     class Meta:
         verbose_name = 'Перевал'
@@ -52,17 +66,3 @@ class Pass(models.Model):
 
     def __str__(self):
         return f'{self.id} {self.beauty_title} {self.title}'
-
-
-class Images(models.Model):
-    title = models.CharField(max_length=255)
-    image = models.URLField(blank=True)
-    add_time = models.DateTimeField(auto_now_add=True)
-    rel_pass = models.ForeignKey(Pass, on_delete=models.CASCADE)
-
-    class Meta:
-        verbose_name = 'Изображение'
-        verbose_name_plural = 'Изображения'
-
-    def __str__(self):
-        return f'{self.title}'

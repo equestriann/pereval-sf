@@ -31,5 +31,6 @@ router = routers.DefaultRouter()
 urlpatterns = [
     path('', include(router.urls)),
     # path('Pereval', include('rest_framework.urls', namespace='rest_framework')),
-    path('Pereval/', PassViewset.as_view())
+    path('Pereval/', PassList.as_view()),
+    path('Pereval/submitData', PassCreate.as_view()),
 ]
