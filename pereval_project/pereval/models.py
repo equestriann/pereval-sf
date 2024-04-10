@@ -14,17 +14,6 @@ class Users(models.Model):
         return f'{self.last_name} {self.first_name} {self.otc}'
 
 
-# class Level(models.Model):
-#     winter = models.CharField(choices=choices.LEVELS, max_length=3, default='n/d')
-#     spring = models.CharField(choices=choices.LEVELS, max_length=3, default='n/d')
-#     summer = models.CharField(choices=choices.LEVELS, max_length=3, default='n/d')
-#     autumn = models.CharField(choices=choices.LEVELS, max_length=3, default='n/d')
-#
-#     class Meta:
-#         verbose_name = 'Уровень сложности'
-#         verbose_name_plural = 'Уровени сложности'
-
-
 class Coords(models.Model):
     latitude = models.FloatField(blank=True)
     longtitude = models.FloatField(blank=True)
