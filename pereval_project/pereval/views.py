@@ -1,25 +1,31 @@
 from django.shortcuts import render
-from rest_framework import generics
+from rest_framework import viewsets
+from rest_framework.generics import ListCreateAPIView
 
 from .serializers import *
 from .models import *
 
 
-class PassList(generics.ListAPIView):
-    """
-    List View for reading data with GET request
-    Returns a list of Pass Model objects
-    """
+# class UsersViewset(viewsets.ModelViewSet):
+#     queryset = Users.objects.all()
+#     serializer_class = UsersSerializer
+#
+#
+# class CoordsViewset(viewsets.ModelViewSet):
+#     queryset = Coords.objects.all()
+#     serializer_class = CoordsSerializer
+#
+#
+# class LevelViewset(viewsets.ModelViewSet):
+#     queryset = Level.objects.all()
+#     serializer_class = LevelSerializer
+#
+#
+# class ImageViewset(viewsets.ModelViewSet):
+#     queryset = Images.objects.all()
+#     serializer_class = ImagesSerializer
 
-    queryset = Pass.objects.all()
-    serializer_class = PassSerializer
 
-
-class PassCreate(generics.ListCreateAPIView):
-    """
-    Create View for inserting new passes' data into database
-    Returns a POST form for Pass Model
-    """
-
+class PassViewset(ListCreateAPIView):
     queryset = Pass.objects.all()
     serializer_class = PassSerializer

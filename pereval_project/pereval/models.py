@@ -14,6 +14,17 @@ class Users(models.Model):
         return f'{self.last_name} {self.first_name} {self.otc}'
 
 
+class Level(models.Model):
+    winter = models.CharField(choices=choices.LEVELS, max_length=3, default='---')
+    spring = models.CharField(choices=choices.LEVELS, max_length=3, default='---')
+    summer = models.CharField(choices=choices.LEVELS, max_length=3, default='---')
+    autumn = models.CharField(choices=choices.LEVELS, max_length=3, default='---')
+
+    class Meta:
+        verbose_name = 'Уровень сложности'
+        verbose_name_plural = 'Уровени сложности'
+
+
 class Coords(models.Model):
     latitude = models.FloatField(blank=True)
     longtitude = models.FloatField(blank=True)
@@ -32,11 +43,8 @@ class Pass(models.Model):
     connect = models.CharField(max_length=255)
     add_time = models.DateTimeField(auto_now_add=True)
     coord = models.OneToOneField(Coords, on_delete=models.CASCADE)
-    user = models.ForeignKey(Users, on_delete=models.CASCADE)
-    lvl_winter = models.CharField(choices=choices.LEVELS, max_length=3, default='---')
-    lvl_spring = models.CharField(choices=choices.LEVELS, max_length=3, default='---')
-    lvl_summer = models.CharField(choices=choices.LEVELS, max_length=3, default='---')
-    lvl_autumn = models.CharField(choices=choices.LEVELS, max_length=3, default='---')
+    tourist = models.ForeignKey(Users, on_delete=models.CASCADE)
+    level = models.OneToOneField(Level, on_delete=models.CASCADE, default="---")
 
     class Meta:
         verbose_name = 'Перевал'
@@ -48,7 +56,7 @@ class Pass(models.Model):
 
 class Images(models.Model):
     title = models.CharField(max_length=255)
-    image = models.ImageField(upload_to=services.upload_path, null=True)
+    image = models.URLField(blank=True)
     add_time = models.DateTimeField(auto_now_add=True)
     rel_pass = models.ForeignKey(Pass, on_delete=models.CASCADE)
 

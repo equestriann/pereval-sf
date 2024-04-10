@@ -22,9 +22,14 @@ from pereval.views import *
 
 # # Routers provide an easy way of automatically determining the URL conf.
 router = routers.DefaultRouter()
+# router.register(r'users', UsersViewset)
+# router.register(r'coords', CoordsViewset)
+# router.register(r'levels', LevelViewset)
+# router.register(r'images', ImageViewset)
+# router.register(r'Pereval', PassViewset)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('pass/', PassList.as_view()),
-    path('pass/submitData', PassCreate.as_view()),
+    # path('Pereval', include('rest_framework.urls', namespace='rest_framework')),
+    path('Pereval/', PassViewset.as_view())
 ]
