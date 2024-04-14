@@ -78,8 +78,6 @@ class PassSerializer(ModelSerializer):
             level=level,
         )
 
-        print(**new_pass)
-
         for img in images:
             image = img.pop('image')
             title = img.title('title')
