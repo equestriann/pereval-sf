@@ -80,7 +80,7 @@ class PassSerializer(ModelSerializer):
 
         for img in images:
             image = img.pop('image')
-            title = img.title('title')
+            title = img.pop('title')
             Images.objects.create(image=image, title=title, rel_pass=new_pass)
 
         return new_pass
