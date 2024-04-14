@@ -20,9 +20,8 @@ from rest_framework import routers
 from pereval.views import *
 
 router = routers.DefaultRouter()
+router.register(r'Pereval', PassViewset)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('Pereval/', PassList.as_view()),
-    path('Pereval/submitData', PassCreate.as_view()),
 ]

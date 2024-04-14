@@ -30,7 +30,7 @@ class PassSerializer(ModelSerializer):
     tourist = UsersSerializer()
     coord = CoordsSerializer()
     level = LevelSerializer()
-    image = ImagesSerializer()
+    images = ImagesSerializer(many=True)
 
     class Meta:
         model = Pass
@@ -42,7 +42,7 @@ class PassSerializer(ModelSerializer):
             'tourist',
             'coord',
             'level',
-            'image',
+            'images',
         ]
 
     def create(self, validated_data):
@@ -58,7 +58,7 @@ class PassSerializer(ModelSerializer):
         tourist = validated_data.pop('tourist')
         coords = validated_data.pop('coord')
         level = validated_data.pop('level')
-        image = validated_data.pop('image')
+        images = validated_data.pop('images')
 
         cur_user = Users.objects.filter(email=tourist['email'])
         if cur_user.exists():
@@ -70,14 +70,19 @@ class PassSerializer(ModelSerializer):
 
         coords = Coords.objects.create(**coords)
         level = Level.objects.create(**level)
-        image = Images.objects.create(**image)
 
         new_pass = Pass.objects.create(
             **validated_data,
             tourist=user,
             coord=coords,
             level=level,
-            image=image
         )
+
+        print(**new_pass)
+
+        for img in images:
+            image = img.pop('image')
+            title = img.title('title')
+            Images.objects.create(image=image, title=title, rel_pass=new_pass)
 
         return new_pass
