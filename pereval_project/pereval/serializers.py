@@ -23,7 +23,7 @@ class LevelSerializer(ModelSerializer):
 class ImagesSerializer(ModelSerializer):
     class Meta:
         model = Images
-        fields = "__all__"
+        fields = ["title", "image"]
 
 
 class PassSerializer(ModelSerializer):
