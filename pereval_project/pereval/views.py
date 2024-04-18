@@ -9,11 +9,61 @@ from .models import *
 
 
 class PassViewset(viewsets.ModelViewSet):
+    """
+    Viewset provides pass data management:
+    Allows creating, updating and viewing pass information
+
+    Attributes:
+        queryset (QuerySet): Set of Pass model objects available for queries
+        serializer_class (Serializer): Serializer used for converting Pass objects to and from JSON
+        filterset_fields (list): List of fields by which the Pass object set can be filtered
+
+    Methods:
+        create(self, request, *args, **kwargs): Method for creating new pass object
+        partial_update(self, request, *args, **kwargs): Method for partial update of an existing pass
+    """
     queryset = Pass.objects.all()
     serializer_class = PassSerializer
     filterset_fields = ['tourist__email']
 
+    def create(self, request, *args, **kwargs):
+        """
+        Parent class method override to handle object creating result
+
+        :param request: HttpRequest object containing pass data.
+        :type request: HttpRequest
+        :return: JSON response with the result of the pass creation operation.
+        :rtype: Response
+        """
+        serializer = PassSerializer(data=request.data)
+        if serializer.is_valid():
+            return Response({
+                "status": status.HTTP_200_OK,
+                "message": None,
+                "id": serializer.data['id'],
+            })
+        if status.HTTP_400_BAD_REQUEST:
+            return Response({
+                "status": status.HTTP_400_BAD_REQUEST,
+                "message": "Bad Request",
+                "id": None,
+            })
+        if status.HTTP_500_INTERNAL_SERVER_ERROR:
+            return Response({
+                "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
+                "message": "Database connection error",
+                "id": None,
+            })
+
     def partial_update(self, request, *args, **kwargs):
+        """
+        Parent class method override to handle object update result
+
+        :param request: HttpRequest object containing pass update data.
+        :type request: HttpRequest
+        :return: JSON response with the result of the pass update operation.
+        :rtype: Response
+        """
         cur_pass = self.get_object()
         if cur_pass.status == "new":
             serializer = PassSerializer(cur_pass, data=request.data, partial=True)
