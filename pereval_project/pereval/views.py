@@ -62,9 +62,5 @@ class PassViewset(viewsets.ModelViewSet):
         pass
 
     @swagger_auto_schema(auto_schema=None)
-    def retrieve(self, request, *args, **kwargs):
-        pass
-
-    @swagger_auto_schema(auto_schema=None)
     def destroy(self, request, *args, **kwargs):
         pass
