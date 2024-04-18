@@ -35,3 +35,6 @@ class PassViewset(viewsets.ModelViewSet):
 
     def update(self, request, *args, **kwargs):
         pass
+
+    def retrieve(self, request, *args, **kwargs):
+        pass
