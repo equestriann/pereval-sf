@@ -47,7 +47,7 @@ class PassViewset(viewsets.ModelViewSet):
                 })
             else:
                 return Response({
-                    "state": 0,
+                    "status": 0,
                     "message": serializer.errors
                 })
         else:

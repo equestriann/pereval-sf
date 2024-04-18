@@ -97,8 +97,8 @@ class PassTestCase(APITestCase):
     def test_pereval_user_email(self):
         """Тест endpoint /Pereval/user__email=<email> - объекты модели Pass отфильтрованные по email пользователя"""
 
-        email = self.pass_1.user.email
-        url = f'/Pereval/?user__email={email}'
+        email = self.pass_1.tourist.email
+        url = f'/Pereval/?tourist__email={email}'
 
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
