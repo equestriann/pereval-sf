@@ -32,3 +32,6 @@ class PassViewset(viewsets.ModelViewSet):
                 "status": 0,
                 "message": f"Unable to update in status: {cur_pass.get_status_display()}"
             })
+
+    def update(self, request, *args, **kwargs):
+        pass
