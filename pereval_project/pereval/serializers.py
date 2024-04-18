@@ -71,6 +71,15 @@ class PassSerializer(WritableNestedModelSerializer, ModelSerializer):
         return new_pass
 
     def validate(self, data):
+        """
+        :param data: dict
+        :return: models.Pass object
+
+        Method works with POST request,
+        spreading data across models, related to Pass model.
+        Returns new Pass object.
+        """
+        print(type(data))
         if self.instance is not None:
             tourist_instance = self.instance.tourist
             tourist_data = data.get('tourist')
