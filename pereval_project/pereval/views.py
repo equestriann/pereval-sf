@@ -2,6 +2,7 @@ from django.shortcuts import render
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
+from drf_yasg.utils import swagger_auto_schema
 
 from .serializers import *
 from .models import *
@@ -33,11 +34,15 @@ class PassViewset(viewsets.ModelViewSet):
                 "message": f"Unable to update in status: {cur_pass.get_status_display()}"
             })
 
+    """ Disabling unused parent class methods """
+    @swagger_auto_schema(auto_schema=None)
     def update(self, request, *args, **kwargs):
         pass
 
+    @swagger_auto_schema(auto_schema=None)
     def retrieve(self, request, *args, **kwargs):
         pass
 
+    @swagger_auto_schema(auto_schema=None)
     def destroy(self, request, *args, **kwargs):
         pass
