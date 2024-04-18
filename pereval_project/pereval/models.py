@@ -1,5 +1,5 @@
 from django.db import models
-from . import choices, services
+from . import choices
 
 
 # Create your models here.
