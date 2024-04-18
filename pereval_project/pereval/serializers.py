@@ -1,7 +1,6 @@
 from .models import *
 from rest_framework.serializers import ModelSerializer, ValidationError
 from drf_writable_nested import WritableNestedModelSerializer
-from pprint import pprint
 
 
 class UsersSerializer(ModelSerializer):
