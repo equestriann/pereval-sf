@@ -138,4 +138,4 @@ _Документация **redoc**: http://127.0.0.1:8000/redoc/_
 ___
 _**Отчет о покрытии тестами:**_
 
-![](C:\Users\xdorm\PycharmProjects\pereval_sf\pereval_project\test_coverage.png)
+![](pereval_project/test_coverage.png)
