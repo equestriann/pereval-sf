@@ -10,6 +10,7 @@ from .models import *
 class PassViewset(viewsets.ModelViewSet):
     queryset = Pass.objects.all()
     serializer_class = PassSerializer
+    filterset_fields = ['tourist__email']
 
     def partial_update(self, request, *args, **kwargs):
         cur_pass = self.get_object()
