@@ -4,3 +4,4 @@ drf-yasg
 psycopg2
 python-dotenv
 django-filter
+drf-writable-nested
