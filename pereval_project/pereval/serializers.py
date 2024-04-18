@@ -1,5 +1,7 @@
 from .models import *
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer, ValidationError
+from drf_writable_nested import WritableNestedModelSerializer
+from pprint import pprint
 
 
 class UsersSerializer(ModelSerializer):
@@ -23,10 +25,10 @@ class LevelSerializer(ModelSerializer):
 class ImagesSerializer(ModelSerializer):
     class Meta:
         model = Images
-        fields = ["title", "image"]
+        exclude = ['rel_pass']
 
 
-class PassSerializer(ModelSerializer):
+class PassSerializer(WritableNestedModelSerializer, ModelSerializer):
     tourist = UsersSerializer()
     coord = CoordsSerializer()
     level = LevelSerializer()
@@ -34,23 +36,14 @@ class PassSerializer(ModelSerializer):
 
     class Meta:
         model = Pass
-        fields = [
-            'beauty_title',
-            'title',
-            'other_titles',
-            'connect',
-            'tourist',
-            'coord',
-            'level',
-            'images',
-        ]
+        exclude = ['add_time', 'status']
 
     def create(self, validated_data):
         """
         :param validated_data: dict
         :return: models.Pass object
 
-        Method works with POST request from 'Pereval/submitDATA',
+        Method works with POST request,
         spreading data across models, related to Pass model.
         Returns new Pass object.
         """
@@ -60,14 +53,7 @@ class PassSerializer(ModelSerializer):
         level = validated_data.pop('level')
         images = validated_data.pop('images')
 
-        cur_user = Users.objects.filter(email=tourist['email'])
-        if cur_user.exists():
-            user_srl = UsersSerializer(data=tourist)
-            user_srl.is_valid(raise_exception=True)
-            user = user_srl.save()
-        else:
-            user = Users.objects.create(**tourist)
-
+        user, created = Users.objects.get_or_create(**tourist)
         coords = Coords.objects.create(**coords)
         level = Level.objects.create(**level)
 
@@ -84,3 +70,18 @@ class PassSerializer(ModelSerializer):
             Images.objects.create(image=image, title=title, rel_pass=new_pass)
 
         return new_pass
+
+    def validate(self, data):
+        if self.instance is not None:
+            tourist_instance = self.instance.tourist
+            tourist_data = data.get('tourist')
+            fields_to_validate = [
+                tourist_instance.last_name != tourist_data['last_name'],
+                tourist_instance.first_name != tourist_data['first_name'],
+                tourist_instance.otc != tourist_data['otc'],
+                tourist_instance.email != tourist_data['email'],
+                tourist_instance.phone != tourist_data['phone']
+            ]
+            if tourist_data is not None and any(fields_to_validate):
+                raise ValidationError("Unable to update user data")
+        return data
