@@ -38,3 +38,6 @@ class PassViewset(viewsets.ModelViewSet):
 
     def retrieve(self, request, *args, **kwargs):
         pass
+
+    def destroy(self, request, *args, **kwargs):
+        pass
